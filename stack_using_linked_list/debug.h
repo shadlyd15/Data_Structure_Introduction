@@ -89,7 +89,7 @@
                        DEBUG_POINT();                                        \
                     }
 
-        bool CMP_ARRAY(uint8_t * array_1, uint8_t * array_2, uint8_t array_length) __attribute__((always_inline));
+        // bool CMP_ARRAY(uint8_t * array_1, uint8_t * array_2, uint8_t array_length) __attribute__((always_inline));
 
         bool CMP_ARRAY(uint8_t * array_1, uint8_t * array_2, uint8_t array_length) {\
                     for (uint32_t i = 0; i < array_length; i++) {\
