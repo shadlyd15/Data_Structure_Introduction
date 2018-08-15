@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #include "debug.h"
 
 struct node_t{
@@ -11,6 +12,7 @@ struct node_t{
 
 struct node_t * create_stack(){
 	struct node_t * stack = (struct node_t *)malloc(sizeof(struct node_t));
+	// memset(stack, 0x00, sizeof(struct node_t));
 	stack->size = 0;
 	stack->link = NULL;
 	return stack;
@@ -23,7 +25,7 @@ void delete_stack(struct node_t ** stack){
 		while(node){
 			struct node_t * temp = node->link;
 			free(node);
-			node = node->link;
+			node = temp;
 		}
 	}
 	*stack = NULL;
@@ -44,11 +46,12 @@ bool stack_push(struct node_t ** stack, int data){
 }
 
 bool stack_is_empty(struct node_t * stack){
-	return !(bool)stack;
+	return !(bool)stack->link;
 }
 
 int stack_size(struct node_t * stack){
-	return stack->size;
+	if(stack)	return stack->size;
+	else return 0;
 }
 
 int stack_pop(struct node_t ** top){
@@ -62,7 +65,7 @@ int stack_pop(struct node_t ** top){
 int main(int argc, char const *argv[]){
 	struct node_t * stack = create_stack();
 	if(stack){
-		for(int i = 0; i < 5000 ; i++){
+		for(int i = 0; i < 5 ; i++){
 			if(stack_push(&stack, i)){
 				DEBUG_OK("%dth Element %d Pushed", i, i);
 			} else {
@@ -72,7 +75,7 @@ int main(int argc, char const *argv[]){
 
 		DEBUG_VALUE(stack_size(stack), "%d");
 		while(!stack_is_empty(stack)){
-			DEBUG_VALUE(stack_pop(&stack), "%d");
+			DEBUG_OK("Popped Value : %d", stack_pop(&stack));
 		}
 
 		if(!stack_is_empty(stack)){
@@ -80,6 +83,7 @@ int main(int argc, char const *argv[]){
 		} else{
 			DEBUG_OK("Stack Empty");
 		}
+		DEBUG_VALUE(stack_size(stack), "%d");
 		delete_stack(&stack);
 	}
 	return 0;

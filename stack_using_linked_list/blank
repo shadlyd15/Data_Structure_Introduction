@@ -1,0 +1,2 @@
+gcc -g -fsanitize=address -fno-omit-frame-pointer main.c
+valgrind --track-origins=yes ./a.out
